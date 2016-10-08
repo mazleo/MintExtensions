@@ -1,39 +1,45 @@
-// Calculates Spending balance from between paychecks on transactions page of Mint.com
+/* Calculates total spending cost from specified transaction line to a line with a "Paycheck" category. Opens a new window reporting all transactions as well as the total */
 
 javascript:
-	var line = prompt("Which transaction line would you like to start? Please enter a number between 1 - 50.") - 1;
-	while(isNan(line) || line < 1 || line > 50) {
-		line = prompt("Please enter a valid number. Which transaction line would you like to start?") - 1;
+	/* Asks user which transaction line to start with */
+	var line = prompt("Which transaction line would you like to start? Please enter a number between 1 - 50.");
+	while(isNaN(line) || line < 1 || line > 50) {
+		line = prompt("Please enter a valid number. Which transaction line would you like to start?");
 	}
+	line--;
+
+	/* Retrieves document objects, including transaction description, category, and cost */
 	var cat = document.getElementsByClassName("cat");
 	var value = document.getElementsByClassName("money");
 	var i = 0 + line;
 	var m = 2 + line;
 	var c = 1 + line;
 	var temp = "";
+	var n = 0;
 	var total = 0;
+
+	/* Initializes JS to change new window's document body and style. This will generate a table for all the information to print out. */
+	var jsFront = "javascript: document.getElementsByTagName('body').innerHTML = '<style>table {text-align: left; width: 100%; border-collapse: collapse;} tr:last-of-type {border: none;} tr {border-bottom: thin solid #ccc;} tr td:nth-of-type(2), th:nth-of-type(2) {text-align: right;} thead {text-transform: uppercase; border-bottom: thin solid #ccc;} td {padding: 6px 0 0 0;}</style><table><thead><th>Transaction</th><th>Cost</th></thead><tbody>";
+	var jsMid = "";
+	var jsEnd = "</tbody></table>';";
+
+	/* Extracts information one by one, until a transaction within the "Paycheck" category is selected */
 	while(cat[i].innerHTML != "Paycheck") {
 		if (cat[i].innerHTML != "Credit Card Pay…" && cat[i].innerHTML != "Transfer" && cat[i].innerHTML != "Transfer") {
+			n++;
 			temp = Number(value[m].innerHTML.substring(2));
-			console.log(document.getElementsByClassName("description")[c].getElementsByTagName("span")[0].innerHTML + ": $" + temp);
+			jsMid += "<tr><td>" + n + ". " + document.getElementsByClassName("description")[c].getElementsByTagName("span")[0].innerHTML + "</td><td>$" + temp.toFixed(2) + "</td></tr>";
 			total += temp;
 		}
 		i++;
 		m++;
 		c++;
 	}
-	console.log();
-	console.log("TOTAL = " + total);
-	alert("Total = " + total);
+	
+	jsMid += "<tr><td><strong>TOTAL</strong></td><td><strong>$" + total.toFixed(2) + "</strong></td></tr>";
+	var js = jsFront + jsMid + jsEnd;
 
-
-
-javascript:
-	var w = window.open("", "Spending Costs", "channelmode=yes, directories=no, left=400, top=200, location=no, menubar=no, resizable=no, scrollbars=yes, status=no, toolbar=no, width=500, height=500");
+	/* Opens a new window and prints out data */
+	var w = window.open("", "Spending Costs", "channelmode=yes, directories=no, left=400, top=200, location=no, menubar=no, resizable=no, scrollbars=yes, status=no, toolbar=no, width=350, height=500");
 	w.focus();
-
-	var javascript = "javascript: document.getElementsByTagName('body').innerHTML = '<table></table>';";
-
-	javascript = javascript.substring(0, 50);
-
-	w.alert(javascript);
+	w.location.replace(js);
