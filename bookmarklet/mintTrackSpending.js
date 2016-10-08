@@ -1,6 +1,5 @@
-/* Calculates total spending cost from specified transaction line to a line with a "Paycheck" category. Opens a new window reporting all transactions as well as the total */
-
 javascript:
+	
 	/* Asks user which transaction line to start with */
 	var line = prompt("Which transaction line would you like to start? Please enter a number between 1 - 50.");
 	while(isNaN(line) || line < 1 || line > 50) {
