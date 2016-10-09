@@ -1,4 +1,4 @@
 # TODO
 
-- Collect date data
-- Print out data data
+- Collect date data (?)
+- Print out data data (?)

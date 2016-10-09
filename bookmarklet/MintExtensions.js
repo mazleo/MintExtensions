@@ -1,9 +1,9 @@
 javascript:
 	
 	/* Asks user which transaction line to start with */
-	var line = prompt("Which transaction line would you like to start? Please enter a number between 1 - 50.");
+	var line = prompt("Enter a number between 1 - 50. Transaction line: ");
 	while(isNaN(line) || line < 1 || line > 50) {
-		line = prompt("Please enter a valid number. Which transaction line would you like to start?");
+		line = prompt("Invalid input. Enter a number between 1 - 50. Transaction line: ");
 	}
 	line--;
 
